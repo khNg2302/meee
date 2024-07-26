@@ -3,31 +3,41 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --spacing-border-and-text: 10px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html {
+  @apply text-[4vw] sm:text-[2vw] xl:text-[1vw];
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  padding: 2px 4px;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* element */
+
+/* input */
+input {
+  @apply outline-none w-full p-0;
+}
+/* button */
+button {
+  padding: 0 var(--spacing-border-and-text);
+  @apply border flex items-center h-[40px] !py-[20px] rounded-[20px] shadow-md;
+}
+button:active {
+  @apply shadow-none;
+}
+
+/* spacing */
+.outside-m-cont {
+  margin: var(--spacing-border-and-text);
+}
+
+.inside-p-cont {
+  padding: 0 var(--spacing-border-and-text);
+}
+
+.div-editable {
+  @apply border px-4 py-2 rounded flex-1 outline-none;
 }

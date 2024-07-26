@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Header } from "./_components/Header";
+import { AllSpaceBox } from "@/components/AllSpaceBox";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={`${inter.className} h-screen overflow-hidden flex flex-col`}
+      >
+        <Header />
+        <AllSpaceBox className="!overflow-hidden">{children}</AllSpaceBox>
+      </body>
     </html>
   );
 }
