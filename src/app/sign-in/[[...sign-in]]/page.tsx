@@ -8,10 +8,11 @@ const SignInPage = () => {
   const route = useRouter();
   const userStore = useUserStore();
   const handleSignIn = async () => {
-    const { user, permissions, status } = await signIn(SignType.GOOGLE);
-    userStore.saveUser({ ...user, permissions, status });
-    if (status === "new") route.replace("/role");
-    if (status === "completed") route.back();
+    const { user, permissions } = await signIn(SignType.GOOGLE);
+
+    userStore.saveUser({ ...user, permissions });
+    if (user.status === "new") route.replace("/role");
+    if (user.status === "completed") route.back();
   };
 
   return (

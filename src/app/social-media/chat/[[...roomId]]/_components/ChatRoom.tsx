@@ -11,10 +11,14 @@ interface ChatRoomI extends Omit<ChatInfoType, "message"> {
 export const ChatRoom = ({ hh, currentMessage, ...chatInfo }: ChatRoomI) => {
   const CurrentMessage = () => {
     return (
-      <div>
-        <MediaBox medias={[currentMessage.userPhoto]} loadSrc />
+      <div className="flex flex-1 items-center gap-2">
+        <MediaBox
+          medias={[currentMessage.userPhoto]}
+          loadSrc
+          className="rounded-full !aspect-square !w-[1.5rem]"
+        />
 
-        <p>{currentMessage.content}</p>
+        <p className="flex-1 truncate">{currentMessage.content}</p>
       </div>
     );
   };

@@ -26,9 +26,11 @@ const SocialMediaPage = () => {
     })();
   }, []);
   return (
-    <AllSpaceBox className="flex w-full flex-col-reverse justify-between m-auto md:flex-row">
-      <SocialMediaPostCollectionsNavbar />
-      <PaddingBox>
+    <AllSpaceBox className="flex w-full flex-col-reverse justify-between m-auto md:flex-row overflow-hidden">
+      <div className="">
+        <SocialMediaPostCollectionsNavbar />
+      </div>
+      <PaddingBox className="overflow-auto flex-1 max-w-full md:max-w-[40%]">
         <CreatePost />
         {posts.map((item) => {
           return (

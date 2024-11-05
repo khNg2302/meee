@@ -10,19 +10,21 @@ export type UserRole = {
   permissions: UserPermission[];
 };
 export type UserType = {
-  status: "new" | "completed" | "";
+  status: UserStatusType;
   displayName?: string;
   uid: string;
-  permissions: UserPermission[] | string[];
+  permissions: UserPermission[];
   photoUrl: string;
   activeStatus: UserActiveStatusEnum;
   role: string;
+  chatRooms?: string[];
 };
 
 export type CreateUserType = {
   displayName: string;
   uid: string;
   photoUrl: string;
+  status:UserStatusType
 };
 
 export type UserRoleResponse = {
@@ -32,4 +34,9 @@ export type UserRoleResponse = {
 export enum UserActiveStatusEnum {
   ACTIVE = "ACTIVE",
   AWAY = "AWAY",
+}
+
+export enum UserStatusType {
+  NEW="new",
+  COMPLETED='completed',
 }

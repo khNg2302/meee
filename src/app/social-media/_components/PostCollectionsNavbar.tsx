@@ -9,11 +9,11 @@ const SocialMediaCollectionsNavbarItem: LinkType[] = [
   },
   {
     label: "Liked",
-    link: "/social-media/liked",
+    link: "/social-media?collection=liked",
   },
   {
     label: "Shared",
-    link: "/social-media/shared",
+    link: "/social-media?collection=shared",
   },
 ];
 

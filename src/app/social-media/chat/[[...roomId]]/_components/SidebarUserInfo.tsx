@@ -1,12 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ChatInfo } from "./ChatInfo";
 import { useUserStore } from "@/store/user";
+import { getMedia } from "@/firebase/getMedias";
+import { MediaType } from "@/types/media";
 
 export const SidebarUserInfo = () => {
   const [activeStatus, setActiveStatus] = useState();
+  const [userPhoto, setUserPhoto] = useState<MediaType>();
   const user = useUserStore();
+
+  const getUserPhoto = useCallback(async () => {
+    if (!user.photoUrl) return;
+    
+    const userPhotoResponse = await getMedia(user.photoUrl);
+
+    setUserPhoto(userPhotoResponse as MediaType);
+  }, [user]);
+
+  useEffect(() => {
+    getUserPhoto();
+  }, [getUserPhoto]);
 
   const ActiveStatus = () => {
     return (
@@ -20,13 +35,8 @@ export const SidebarUserInfo = () => {
   return (
     <ChatInfo
       displayName={user.displayName || "{User name}"}
-      photoUrl={{
-        uuid: "sB7bSqQ4ti4KtlQRgWRR",
-        src: "images/hi.jpg",
-        typeName: "image",
-        typeSrc: "jpg",
-      }}
-      message={<ActiveStatus/>}
+      photoUrl={userPhoto}
+      message={<ActiveStatus />}
     />
   );
 };

@@ -28,6 +28,6 @@ export type FilesChange = (
 
 export type ChatInfoType = {
   displayName: string;
-  photoUrl: MediaType;
+  photoUrl?: MediaType;
   message: string | ReactNode;
 };

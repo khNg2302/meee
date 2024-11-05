@@ -30,10 +30,14 @@ export const readDocuments = async <DocumentType>(
   collectionName: string,
   queries?: QueryFieldFilterConstraint[] | QueryCompositeFilterConstraint
 ) => {
-  const q =
-    queries instanceof QueryCompositeFilterConstraint
-      ? query(collection(db, collectionName), queries)
-      : query(collection(db, collectionName), ...queries);
+  let q = null;
+
+  if (!queries) q = query(collection(db, collectionName));
+  else {
+    if (queries instanceof QueryCompositeFilterConstraint)
+      q = query(collection(db, collectionName), queries);
+    else q = query(collection(db, collectionName), ...queries);
+  }
 
   const rolesSnapshot = await getDocs(q);
 

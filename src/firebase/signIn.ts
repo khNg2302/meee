@@ -4,7 +4,13 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from ".";
 import { readDocument } from "./readDocument";
 import { getPermission, getPermissions } from "./getPermission";
-import { UserType } from "@/types/user";
+import {
+  CreateUserType,
+  UserPermission,
+  UserStatusType,
+  UserType,
+} from "@/types/user";
+import { SignInFirebase } from "@/types/firebase";
 
 export enum SignType {
   GOOGLE = "google",
@@ -26,39 +32,39 @@ export const signIn = async (signType: SignType) => {
 
   const user = await findUser(result?.user.uid as string);
 
+  let userResponse: UserType;
+
   if (!user) {
     const { user } = result as { user: User };
 
-    await createUser({
+    const newUser = {
       photoUrl: user.photoURL || "",
       displayName: user.displayName || "",
+      status: UserStatusType.NEW,
       uid: user.uid,
-    });
-    return {
-      status: "new",
-      user: result?.user,
-    };
+    } as UserType | CreateUserType;
+
+    await createUser(newUser as CreateUserType);
+
+    userResponse = newUser as UserType;
   }
 
-  if (user) {
-    if (user.role) {
-      const roleRef = doc(db, "roles", user.role);
-      const roleSnap = await getDoc(roleRef);
+  let permissions = [] as UserPermission[];
 
-      const { permissionIds } = roleSnap.data() as { permissionIds: string[] };
-      const permissions = await getPermissions(permissionIds);
-      return {
-        status: "completed",
-        user: result?.user,
-        permissions,
-      };
-    } else {
-      return {
-        status: "new",
-        user: result?.user,
-      };
-    }
+  if (user?.role) {
+    const roleRef = doc(db, "roles", user.role);
+    const roleSnap = await getDoc(roleRef);
+
+    const { permissionIds } = roleSnap.data() as { permissionIds: string[] };
+    permissions = (await getPermissions(permissionIds)) as UserPermission[];
   }
+
+  userResponse = user as UserType;
+
+  return {
+    user: userResponse,
+    permissions,
+  };
 };
 
 const signInWithPopupGoogle = () => {
